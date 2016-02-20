@@ -14,5 +14,13 @@ show_social_icons: true
 twitter_username: robertharrop
 github_username:  robharrop
 
+# Text
+text:
+  index:
+    coming_soon: Coming soon!
+
 # Build settings
 markdown: kramdown
+paginate: 5
+gems:
+  - jekyll-paginate
