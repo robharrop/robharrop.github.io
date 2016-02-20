@@ -1,0 +1,9 @@
+text:
+  index:
+    coming_soon: Coming soon!
+  pagination:
+    newer: 'Newer'
+    older: 'Older'
+  post:
+    minute_read: 'minute read'
+    updated: 'Updated'
