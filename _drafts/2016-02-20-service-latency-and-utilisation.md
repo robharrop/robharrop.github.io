@@ -108,7 +108,22 @@ $$
 
 We can assume that $$\mu$$ is constant and that the main contribution to
 changes in service utilisation will come from changes in the arrival rate.
-Thus the latency is proportional to $$1/(1 - \rho)$$.
+Thus the latency is proportional to $$1/(1 - \rho)$$. If we plot this, we can
+see a sharp uptick in latency when utilisation hits around 80% after which the
+latency tends towards infinity as the utilisation tends towards to 100%.
+
+![Plotting Latency vs. Utilisation](/assets/latency-utilisation/plot.png)
+
+## Conclusion
+
+Once service utilisation exceeds 80%, latencies suffer dreadfully. To avoid being
+surprised by disastrous latencies in production systems, it's important to monitor
+utilisation and take action as it approaches the 80% danger zone.
+
+When testing system performance, loading a system much beyond the 80% utilisation
+mark will likely result in latencies that are wildly unacceptable. Loading that
+system at close to 100% and you should expect to wait quite some time to see
+your tests complete!
 
 [1]: http://www.johndcook.com/blog/2009/01/30/server-utilization-joel-on-queuing/
 
