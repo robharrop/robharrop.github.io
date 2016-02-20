@@ -7,6 +7,10 @@ description: >
   optimisation and machine learning
 baseurl: ""
 url: "http://robharrop.github.io"
+date_format: "%b %-d, %Y"
+
+# Social settings
+show_social_icons: true
 twitter_username: robertharrop
 github_username:  robharrop
 
