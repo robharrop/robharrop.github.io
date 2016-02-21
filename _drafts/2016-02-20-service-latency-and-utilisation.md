@@ -10,7 +10,7 @@ perform as they approach the maximum sustainable load. We don't want to
 completely saturate an application so it falls over, but we also don't
 want to under-load the application and miss out on true performance
 numbers. In particular, we are interested in finding points in the load
-where latencies are on the precipice move outside acceptable limits.
+where latencies are on the precipice of moving outside acceptable limits.
 
 In a recent conversation with the team about web application latencies,
 I mentioned that, as a general rule, we should expect latencies to degrade
@@ -24,16 +24,16 @@ experience with queuing theory.
 
 ## Services as Queues
 
-The argument for why wait degrades so badly at 80% follows directly from
+The argument for why latency degrades so badly at 80% follows directly from
 the results of queuing theory. We can start to understand this by first
-understanding how a service such as a web application might be described
-in queuing theory.
+understanding how a service like a web application can be modelled using
+queuing theory.
 
 For the purpose of this discussion, we'll assume that we are interested in
 measuring the latency of a web application - the service - and that we are
 running that application on a single server. Requests arrive at the
 service and are processed as quickly as possible. If the service is too
-busy processing other requests when a new request arrives then that
+busy processing other requests when a new request arrives, then that
 request waits in the queue until the service can process it. For
 simplicity, we'll assume that the queue is unbounded and that once
 a request is in the queue, the only way it can leave is by getting
@@ -47,10 +47,9 @@ service time distribution and $$c$$ is the number of servers.
 Our fictional service has only one server hence $$c = 1$$. The $$M$$ in the
 model stands for Markov. The Markovian arrival process describes
 a [Poisson process][3], that is a process where the time between each
-arrival and next (the inter-arrival time) is exponentially-distributed
+arrival and the next (the inter-arrival time) is exponentially-distributed
 with parameter $$\lambda$$. The Markovian service time distribution has
-service times exponentially-distributed with parameter $$\mu$$. Mapping
-this to our fictional service, we have $$\lambda = 80$$ and $$\mu = 120$$.
+service times exponentially-distributed with parameter $$\mu$$. 
 
 ## Queue Utilisation
 
@@ -71,8 +70,16 @@ $$
 L = \lambda W
 $$
 
-Since we are interested in latency, we can rearrange this to the latency
-($$W$$) on the left-hand side:
+The average time a customer spends in the system is equivalent to the
+average latency a customer will see. This value is a combination of the
+average service time and the average time spent waiting in the queue.
+Intuitively we should realise that, in a running system, the average
+service time is broadly fixed and that latency variations typically stem
+from variations in the wait time.
+
+Since we are interested in calculating latency and not the average number
+of customers in the system, we can rearrange Little's Law to put the
+latency ($$W$$) on the left-hand side:
 
 $$
 W = \frac{L}{\lambda}
@@ -87,8 +94,8 @@ $$
 $$
 
 Deriving this equation from first principles is beyond the scope of this
-blog, but it follows to the steady-state probabilities of the Markov chain
-describing the process. You can find a good description of the maths
+blog, but it follows from the steady-state probabilities of the Markov
+chain describing the process. You can find a good description of the maths
 behind this [here][5].
 
 Reminding ourselves that $$\rho = \lambda / \mu$$:
@@ -106,11 +113,12 @@ $$
 W = \frac{1}{\mu - \lambda} = \frac{1}{\mu - \rho \mu} = \frac{1}{\mu (1 - \rho)}
 $$
 
-We can assume that $$\mu$$ is constant and that the main contribution to
-changes in service utilisation will come from changes in the arrival rate.
-Thus the latency is proportional to $$1/(1 - \rho)$$. If we plot this, we can
-see a sharp uptick in latency when utilisation hits around 80% after which the
-latency tends towards infinity as the utilisation tends towards to 100%.
+As discussed, we can assume that $$\mu$$ is constant for a running system
+and that the main contribution to changes in service utilisation will come
+from changes in the arrival rate. Thus the latency is proportional to
+$$1/(1 - \rho)$$. If we plot this, we can see a sharp uptick in latency
+when utilisation hits around 80% after which the latency tends towards
+infinity as the utilisation tends towards to 100%.
 
 ![Plotting Latency vs. Utilisation](/assets/latency-utilisation/plot.png)
 
@@ -121,7 +129,7 @@ surprised by disastrous latencies in production systems, it's important to monit
 utilisation and take action as it approaches the 80% danger zone.
 
 When testing system performance, loading a system much beyond the 80% utilisation
-mark will likely result in latencies that are wildly unacceptable. Loading that
+mark will likely result in latencies that are wildly unacceptable. Load that
 system at close to 100% and you should expect to wait quite some time to see
 your tests complete!
 
