@@ -5,7 +5,7 @@ date:   2016-02-20 17:00:00 +0000
 categories: maths performance
 ---
 
-At [Skipjaq](https://www.skipjaq.com), we are interested in how applications
+At [Skipjaq](http://www.skipjaq.com), we are interested in how applications
 perform as they approach the maximum sustainable load. We don't want to
 completely saturate an application so it falls over, but we also don't
 want to under-load the application and miss out on true performance
