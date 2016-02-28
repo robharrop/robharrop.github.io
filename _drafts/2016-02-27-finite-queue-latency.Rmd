@@ -5,7 +5,12 @@ date:   2016-02-27 17:00:00 +0000
 categories: maths performance
 ---
 
-
+```{r, include=FALSE}
+library(ggplot2)
+library(tidyr)
+library(knitr)
+opts_chunk$set(fig.height = 5)
+```
 
 After showing my [previous post][1] around at [work][2], a colleague responded
 with [this article][3] in which the author compares the performance of
@@ -72,7 +77,35 @@ $$
 We can plot the mean number of customers in the system as $$\rho$$
 increases and with $$K = 10$$:
 
-![plot of chunk customers-vs-utilisation](/assets/figures/drafts/2016-02-27-finite-queue-latency/customers-vs-utilisation-1.png)
+```{r customers-vs-utilisation, echo=FALSE}
+K <- 10
+mu <- 100
+
+p <- function(n, rho) {
+  if (rho == 1) {
+    1 / (K + 1)
+  } else {
+    nm <- (1 - rho) * rho ^ n
+    dn <- 1 - (rho ^ (K+1))
+    nm / dn
+  }
+}
+
+mn <- function(rho) {
+  n <- (0:K)
+  sum(n * p(n, rho))
+}
+
+df <- data.frame(rho = seq(0, K, by = 0.1))
+df$N <- mapply(function(rho) mn(rho), df$rho)
+
+ggplot(df, aes(x = rho, y = N)) +
+  geom_line() +
+  xlab("Utilisation") +
+  ylab("Mean customers in system") +
+  scale_x_continuous(labels = scales::percent)
+
+```
 
 As we can see, no matter how large $$\rho$$ gets, the number of customers
 in the system never exceeds the bound set by $$K$$.
@@ -122,7 +155,28 @@ $$
 We can plot the wait time of $$M/M/1$$ and $$M/M/1/K$$ graphs side-by-side
 as $$\lambda$$ increases. For these graphs $$\mu = 100$$ and $$K = 10$$:
 
-![plot of chunk latency-by-arrival-rate](/assets/figures/drafts/2016-02-27-finite-queue-latency/latency-by-arrival-rate-1.png)
+```{r latency-by-arrival-rate, echo=FALSE}
+w <- function(l) {
+  rho <- l / mu
+  leff <- l * (1 - p(K, rho))
+  mn(rho) / leff
+}
+
+w1 <- function(l) {
+  1 / (mu - l)
+}
+
+wdf <- data.frame(l = 1:mu)
+wdf$MM1K <- mapply(w, wdf$l)
+wdf$MM1 <- mapply(w1, wdf$l)
+
+wd <- gather(wdf, Q, latency, MM1, MM1K)
+ggplot(wd) +
+  geom_line(aes(x = l, y = latency)) +
+  facet_grid(. ~ Q) + 
+  xlab("Arrival Rate") +
+  ylab("Wait Time")
+```
 
 We can see how the latency profile of the $$M/M/1/K$$ graph doesn't have
 the same degenerate behaviour that the $$M/M/1$$ queue has; the finite
@@ -151,7 +205,18 @@ $$
 We can plot $$p_{loss}$$ against $$\rho$$ to see how the chance of seeing
 an error increases as utilisation increases:
 
-![plot of chunk loss-vs-utilisation](/assets/figures/drafts/2016-02-27-finite-queue-latency/loss-vs-utilisation-1.png)
+```{r loss-vs-utilisation, echo = FALSE}
+loss <- function(rho) p(K, rho)
+
+ldf <- data.frame(rho = seq(0, 100, by = 1))
+ldf$pl <- mapply(loss, ldf$rho)
+
+ggplot(ldf) + 
+  geom_line(aes(x = rho, y = pl)) +
+  xlab(bquote(rho == lambda / mu)) +
+  ylab("Loss probability") + 
+  scale_x_log10(labels = scales::percent) 
+```
 
 He we can see that as utilisation increases the loss probability
 tends towards to 1. Note the log scale on the x-axis to get a real
