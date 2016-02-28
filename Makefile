@@ -11,7 +11,11 @@ RMD_TARGETS:=$(patsubst %.Rmd, %.md, $(RMD_FILES))
 	$(RSCRIPT) $(R_BUILD) $< $@
 
 default: $(RMD_TARGETS)
-	
+
 .PHONY: serve
 serve: $(R_SERVE)
 	$(RSCRIPT) $<
+
+.PHONY: clean
+clean:
+	rm $(RMD_TARGETS)
