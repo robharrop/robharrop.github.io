@@ -8,6 +8,7 @@ description: >
 url: "http://robharrop.github.io"
 date_format: "%b %-d, %Y"
 enable_mathjax: true
+exclude: ["*.Rmd"]
 
 # Social settings
 show_social_icons: true
