@@ -1,4 +1,5 @@
 RSCRIPT:=Rscript
+JEKYLL:=jekyll
 
 R_BUILD:=build.R
 R_SERVE:=serve.R
@@ -12,6 +13,10 @@ RMD_TARGETS:=$(patsubst %.Rmd, %.md, $(RMD_FILES))
 
 default: $(RMD_TARGETS)
 
+.PHONY: build
+build: default
+	$(JEKYLL) build --drafts
+
 .PHONY: serve
 serve: $(R_SERVE)
 	$(RSCRIPT) $<
@@ -19,3 +24,4 @@ serve: $(R_SERVE)
 .PHONY: clean
 clean:
 	rm $(RMD_TARGETS)
+	$(JEKYLL) clean
