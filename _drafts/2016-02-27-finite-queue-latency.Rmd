@@ -241,8 +241,6 @@ it's better to preserve good service for a smaller number of customers
 rather than give bad service to all customers which is what will happen as
 latency starts to degenerate under heavy load.
 
-
-
 [1]: /maths/performance/2016/02/20/service-latency-and-utilisation.html
 
 [2]: http://www.skipjaq.com
