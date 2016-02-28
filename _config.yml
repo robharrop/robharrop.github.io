@@ -5,7 +5,6 @@ description: >
   Rob Harrop, CTO @ Skipjaq.
   Writing about coding, maths, distributed systems, performance
   optimisation and machine learning
-baseurl: ""
 url: "http://robharrop.github.io"
 date_format: "%b %-d, %Y"
 enable_mathjax: true
