@@ -155,7 +155,7 @@ an error increases as $$\rho$$ increases:
 
 ![plot of chunk loss-vs-utilisation](/assets/figures/posts/2016-02-27-finite-queue-latency/loss-vs-utilisation-1.png)
 
-He we can see that, as the arrival rate nears the service rate ($$\rho$$
+Here we can see that, as the arrival rate nears the service rate ($$\rho$$
 increases), the loss probability tends towards 100%. Note the log scale on
 the x-axis to get a real feel for the fact that even at $$\rho = 1000%$$
 the probability of loss still isn't 100%.

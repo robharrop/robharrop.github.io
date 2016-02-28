@@ -175,7 +175,7 @@ wdf$MM1 <- mapply(w1, wdf$l)
 wd <- gather(wdf, Q, latency, MM1, MM1K)
 ggplot(wd) +
   geom_line(aes(x = l, y = latency)) +
-  facet_grid(. ~ Q) + 
+  facet_grid(. ~ Q) +
   xlab("Arrival Rate") +
   ylab("Wait Time")
 ```
@@ -213,14 +213,14 @@ loss <- function(rho) p(K, rho)
 ldf <- data.frame(rho = seq(0, 100, by = 1))
 ldf$pl <- mapply(loss, ldf$rho)
 
-ggplot(ldf) + 
+ggplot(ldf) +
   geom_line(aes(x = rho, y = pl)) +
   xlab(bquote(rho == lambda / mu)) +
-  ylab("Loss probability") + 
-  scale_x_log10(labels = scales::percent) 
+  ylab("Loss probability") +
+  scale_x_log10(labels = scales::percent)
 ```
 
-He we can see that, as the arrival rate nears the service rate ($$\rho$$
+Here we can see that, as the arrival rate nears the service rate ($$\rho$$
 increases), the loss probability tends towards 100%. Note the log scale on
 the x-axis to get a real feel for the fact that even at $$\rho = 1000%$$
 the probability of loss still isn't 100%.
@@ -251,7 +251,7 @@ u <- function(rho) 1 - p(0, rho)
 udf <- data.frame(rho = seq(0, 2, by = 0.1))
 udf$u <- mapply(u, udf$rho)
 
-ggplot(udf) + 
+ggplot(udf) +
   geom_line(aes(x = rho, y = u)) +
   xlab(bquote(rho == lambda / mu)) +
   ylab("Utilisation") +
