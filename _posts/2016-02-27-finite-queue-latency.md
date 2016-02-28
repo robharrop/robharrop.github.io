@@ -72,7 +72,7 @@ $$
 We can plot the mean number of customers in the system as $$\rho$$
 increases and with $$K = 10$$:
 
-![plot of chunk customers-vs-utilisation](/assets/figures/drafts/2016-02-27-finite-queue-latency/customers-vs-utilisation-1.png)
+![plot of chunk customers-vs-utilisation](/assets/figures/posts/2016-02-27-finite-queue-latency/customers-vs-utilisation-1.png)
 
 As we can see, no matter how large $$\rho$$ gets, the number of customers
 in the system never exceeds the bound set by $$K$$.
@@ -124,7 +124,7 @@ Plotting the wait time of $$M/M/1$$ and $$M/M/1/K$$ graphs side-by-side as
 $$\lambda$$ increases shows us how the limit $$K$$ affects latencies at
 high $$\rho$$. For these graphs $$\mu = 100$$ and $$K = 10$$:
 
-![plot of chunk latency-by-arrival-rate](/assets/figures/drafts/2016-02-27-finite-queue-latency/latency-by-arrival-rate-1.png)
+![plot of chunk latency-by-arrival-rate](/assets/figures/posts/2016-02-27-finite-queue-latency/latency-by-arrival-rate-1.png)
 
 We can see how the latency profile of the $$M/M/1/K$$ graph doesn't have
 the same degenerate behaviour that the $$M/M/1$$ queue has; the finite
@@ -153,7 +153,7 @@ $$
 We can plot $$p_{loss}$$ against $$\rho$$ to see how the chance of seeing
 an error increases as $$\rho$$ increases:
 
-![plot of chunk loss-vs-utilisation](/assets/figures/drafts/2016-02-27-finite-queue-latency/loss-vs-utilisation-1.png)
+![plot of chunk loss-vs-utilisation](/assets/figures/posts/2016-02-27-finite-queue-latency/loss-vs-utilisation-1.png)
 
 He we can see that, as the arrival rate nears the service rate ($$\rho$$
 increases), the loss probability tends towards 100%. Note the log scale on
@@ -180,7 +180,7 @@ the probability that the system is not empty $$U = 1 - p_{0}$$.
 
 The relationship between $$\rho$$ and $$U$$ is easy to see with a plot:
 
-![plot of chunk rho-vs-utilisation](/assets/figures/drafts/2016-02-27-finite-queue-latency/rho-vs-utilisation-1.png)
+![plot of chunk rho-vs-utilisation](/assets/figures/posts/2016-02-27-finite-queue-latency/rho-vs-utilisation-1.png)
 
 Notice how utilisation hits 100% **after** $$\rho$$ passes 100% - this is
 the limiting factor $$K$$ in action.
