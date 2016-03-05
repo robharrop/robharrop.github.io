@@ -23,5 +23,4 @@ serve: $(R_SERVE)
 
 .PHONY: clean
 clean:
-	rm $(RMD_TARGETS)
 	$(JEKYLL) clean
