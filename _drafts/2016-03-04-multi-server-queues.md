@@ -123,6 +123,21 @@ queue is at 100% utilisation and latency is tending towards $$\infty$$.
 The extra capacity with $$c=2$$ and $$c=4$$ is directly reflected in the
 significantly smaller latencies.
 
+## Faster Servers or More Servers?
+
+When deploying an application, it's interesting to consider whether
+a smaller number of faster servers is better than a larger number of
+slower servers. Ignoring any discussion of reliability, we can compare the
+latency of different $$M/M/c$$ queues to help us pick a configuration. 
+
+The plot below compares two queue models, one with $$\mu = 5$$ and $$c
+= 3$$ and the other with $$\mu = 10$$ and $$c = 2$$.
+
+![plot of chunk comparing-models](/assets/figures/drafts/2016-03-04-multi-server-queues/comparing-models-1.png)
+
+To see more configurations in action, I've created a [small simulator][4]
+that you can use to compare two different queue models.
+
 ## Limitations of the $$M/M/c$$ model
 
 The $$M/M/c$$ model is a reasonable way to model systems with multiple
@@ -151,3 +166,6 @@ the load balancer, and one for each of the servers.
 [2]: https://en.wikipedia.org/wiki/Arrival_theorem
 
 [3]: https://en.wikipedia.org/wiki/Erlang_(unit)#Erlang_C_formula
+
+[4]: https://robharrop.shinyapps.io/mmc-latency-simulation/
+

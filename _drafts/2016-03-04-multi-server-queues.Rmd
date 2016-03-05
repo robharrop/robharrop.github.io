@@ -115,7 +115,7 @@ rhos <- seq(0, 1, by = 0.01)
 .df <- data.frame(rho = rhos, c1 = .f(1), c2 = .f(2), c4 = .f(4))
 .df <- gather(.df, c, val, c1, c2, c4)
 base.plot(.df) +
-  geom_line(aes(x = rho, y = val, group = c, color = c)) +
+  geom_line(aes(x = rho, y = val, group = c, color = c), size = 1) +
   ylab("Probability of Queuing") +
   scale_y_continuous(labels = scales::percent)
 ```
@@ -153,7 +153,7 @@ rhos <- seq(0, 1, by = 0.01)
 .df <- data.frame(rho = rhos, c1 = .Wf(1), c2 = .Wf(2), c4 = .Wf(4))
 .df <- gather(.df, c, val, c1, c2, c4)
 base.plot(.df) +
-  geom_line(aes(x = rho, y = val, group = c, color = c)) +
+  geom_line(aes(x = rho, y = val, group = c, color = c), size = 1) +
   ylab("Average Latency") +
   scale_y_log10()
 ```
@@ -162,6 +162,38 @@ Take note of the log scale on the y-axis. At $$\rho = 1 $$, the $$M/M/1$$
 queue is at 100% utilisation and latency is tending towards $$\infty$$.
 The extra capacity with $$c=2$$ and $$c=4$$ is directly reflected in the
 significantly smaller latencies.
+
+## Faster Servers or More Servers?
+
+When deploying an application, it's interesting to consider whether
+a smaller number of faster servers is better than a larger number of
+slower servers. Ignoring any discussion of reliability, we can compare the
+latency of different $$M/M/c$$ queues to help us pick a configuration. 
+
+The plot below compares two queue models, one with $$\mu = 5$$ and $$c
+= 3$$ and the other with $$\mu = 10$$ and $$c = 2$$.
+
+```{r comparing-models, echo = FALSE}
+rhos <- seq(0, 1.9, by = 0.1)
+.Wf <- function(mu, c) mapply(function(r) iW(c, mu, r), rhos)
+
+.df <- data.frame(rho = rhos, q1 = .Wf(5, 3), q2 = .Wf(10, 2))
+.df <- gather(.df, c, val, q1, q2)
+
+
+ggplot(.df) + 
+    xlab(bquote(rho == lambda / mu)) +
+    scale_colour_discrete(name = "Queue Parameters",
+                          breaks = c("q1","q2"),
+                          labels = c(
+                            bquote(paste(mu == 5, ",", c == 3)), 
+                            bquote(paste(mu == 10, ",", c == 2)))) + 
+    geom_line(aes(x = rho, y = val, group = c, color = c), size = 1) +
+    ylab("Average Latency")
+```
+
+To see more configurations in action, I've created a [small simulator][4]
+that you can use to compare two different queue models.
 
 ## Limitations of the $$M/M/c$$ model
 
@@ -191,3 +223,6 @@ the load balancer, and one for each of the servers.
 [2]: https://en.wikipedia.org/wiki/Arrival_theorem
 
 [3]: https://en.wikipedia.org/wiki/Erlang_(unit)#Erlang_C_formula
+
+[4]: https://robharrop.shinyapps.io/mmc-latency-simulation/
+
