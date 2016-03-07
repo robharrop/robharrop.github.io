@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Modelling Multi-Server Queues"
-date:   2016-03-04 17:00:00 +0000
+date:   2016-03-07 08:00:00 +0000
 categories: maths performance
 ---
 
@@ -47,7 +47,7 @@ machines serving the same stream of customers.
 If we were modelling a low-level component like a thread scheduler, then
 we would likely use an $$M/M/c$$ queue, with $$c$$ equal to the number of
 CPUs, but at the coarse granularity of a web server, we can safely ignore
-the number of CPUs and threads and use an $$M/M/1$$ queue. 
+the number of CPUs and threads and use an $$M/M/1$$ queue.
 
 ## Steady-State Probabilities
 
@@ -99,8 +99,8 @@ customer will have to wait:
 
 ![plot of chunk comparing-queue-probabilities](/assets/figures/posts/2016-03-07-multi-server-queues/comparing-queue-probabilities-1.png)
 
-By the time we have four servers, the chance of waiting is 
-barely noticeable, even when $$\rho = 1$$. 
+By the time we have four servers, the chance of waiting is
+barely noticeable, even when $$\rho = 1$$.
 
 ## Multi-Server Wait Times
 
@@ -128,7 +128,7 @@ significantly smaller latencies.
 When deploying an application, it's interesting to consider whether
 a smaller number of faster servers is better than a larger number of
 slower servers. Ignoring any discussion of reliability, we can compare the
-latency of different $$M/M/c$$ queues to help us pick a configuration. 
+latency of different $$M/M/c$$ queues to help us pick a configuration.
 
 The plot below compares two queue models, one with $$\mu = 5$$ and $$c
 = 3$$ and the other with $$\mu = 10$$ and $$c = 2$$.
@@ -160,13 +160,13 @@ Another limitation with the $$M/M/c$$ model is that it doesn't account for
 the overhead of splitting incoming traffic between the servers. In a web
 environment, the individual servers receive their load from some
 load-balancing infrastructure. The load balancer will also have a service
-rate describing how fast it can do its work. 
+rate describing how fast it can do its work.
 
 In my next post, I'll discuss addressing these weaknesses using queue
 networks. As the name implies, queue networks describe how individual
 queues are composed into collaborating networks. A web application running
 on two servers is described as a queue network with three nodes: one for
-the load balancer, and one for each of the servers. 
+the load balancer, and one for each of the servers.
 
 [1]: /maths/performance/2016/02/20/service-latency-and-utilisation.html
 
@@ -175,4 +175,3 @@ the load balancer, and one for each of the servers.
 [3]: https://en.wikipedia.org/wiki/Erlang_(unit)#Erlang_C_formula
 
 [4]: https://robharrop.shinyapps.io/mmc-latency-simulation/
-
