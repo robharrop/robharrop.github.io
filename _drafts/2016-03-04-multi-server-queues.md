@@ -135,6 +135,13 @@ The plot below compares two queue models, one with $$\mu = 5$$ and $$c
 
 ![plot of chunk comparing-models](/assets/figures/drafts/2016-03-04-multi-server-queues/comparing-models-1.png)
 
+As you might expect, the queue with the lowest service rate has a higher
+baseline latency. However, because there are more servers in that queue,
+the latency as $$\rho$$ increases remains steady. Recall the stability
+condition $$a = \lambda / (c \mu) < 1 $$, and it should be apparent that
+more servers will result in longer periods latency stability when
+$$\lambda > \mu$$.
+
 To see more configurations in action, I've created a [small simulator][4]
 that you can use to compare two different queue models.
 
