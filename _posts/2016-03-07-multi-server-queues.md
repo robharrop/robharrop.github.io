@@ -97,7 +97,7 @@ If we plot this function for different values of $$c$$, we can easily
 see how adding more servers to our system reduces the likelihood a
 customer will have to wait:
 
-![plot of chunk comparing-queue-probabilities](/assets/figures/posts/2016-03-04-multi-server-queues/comparing-queue-probabilities-1.png)
+![plot of chunk comparing-queue-probabilities](/assets/figures/posts/2016-03-07-multi-server-queues/comparing-queue-probabilities-1.png)
 
 By the time we have four servers, the chance of waiting is 
 barely noticeable, even when $$\rho = 1$$. 
@@ -116,7 +116,7 @@ If we plot average latency for various values of $$c$$, we
 see how adding more servers is an effective way of reducing
 latency
 
-![plot of chunk comparing-wait-times](/assets/figures/posts/2016-03-04-multi-server-queues/comparing-wait-times-1.png)
+![plot of chunk comparing-wait-times](/assets/figures/posts/2016-03-07-multi-server-queues/comparing-wait-times-1.png)
 
 Take note of the log scale on the y-axis. At $$\rho = 1 $$, the $$M/M/1$$
 queue is at 100% utilisation and latency is tending towards $$\infty$$.
@@ -133,7 +133,7 @@ latency of different $$M/M/c$$ queues to help us pick a configuration.
 The plot below compares two queue models, one with $$\mu = 5$$ and $$c
 = 3$$ and the other with $$\mu = 10$$ and $$c = 2$$.
 
-![plot of chunk comparing-models](/assets/figures/posts/2016-03-04-multi-server-queues/comparing-models-1.png)
+![plot of chunk comparing-models](/assets/figures/posts/2016-03-07-multi-server-queues/comparing-models-1.png)
 
 As you might expect, the queue with the lowest service rate has a higher
 baseline latency. However, because there are more servers in that queue,
