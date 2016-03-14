@@ -1,6 +1,8 @@
 ---
 layout: post
 title: Queue Networks
+categories: maths performance
+
 ---
 
 In my [previous post][1] I presented the $$M/M/c$$ queue as a model for
@@ -89,7 +91,9 @@ $$\lambda_{i}$$ at each queue $$i$$.
 Looking back at our matrix of routing probabilities, it should be apparent
 that any queue can receive customers from the outside world, but also that
 customers can flow in cycles through the network. Nothing in the Jackson
-model requires that the network is acyclic.
+model requires that the network is acyclic. Thus the effective arrival rate for
+each queue must account for arrivals from outside and for arrivals from all
+other queues within the network.
 
 More formally, the flow balance equations for a Jackson network with $$J$$
 nodes is given by:
@@ -103,7 +107,7 @@ $$j$$ is $$\lambda_j$$, the sum of all arrivals from other queues,
 adjusted by the corresponding routing probability, plus the arrivals from
 outside the system.
 
-Our sample network is a special case network: a feed-forward network. In
+Our sample network is a special case: a feed forward network. In
 a feed forward network, the network must be acyclic and customers cannot
 appear in the same queue more than once. Calculating flow balance for such
 networks is greatly simplified as we can see by working through the flow
@@ -117,5 +121,59 @@ $$
 \end{align}
 $$
 
+Recall from [the discussion of $$M/M/1$$][2] queues that the stability
+condition for $$M/M/1$$ is that $$\rho = \lambda / \mu < 1$$. If this condition
+holds for each of our queues, then we know that our network has a steady state
+distribution given by Jackson's theorem. Using the service rates from the
+diagram above we can calculate $$\rho$$ for each of our queues:
+
+$$
+\begin{align}
+\rho_1 &= \lambda_1 / \mu_1 = 500 / 800 = 0.625 \\
+\rho_2 &= \lambda_2 / \mu_2 = 250 / 500 = 0.5 \\
+\rho_3 &= \lambda_3 / \mu_3 = 250 / 500 = 0.5
+\end{align}
+$$
+
+Since $$\rho < 1 $$ for all our queues we know that each queue is stable and
+thus the network is stable.
+
+### Steady-State Probabilities
+
+With the knowledge that our network has a well-defined steady state, we can
+apply Jackson's theorem to calculate the steady-state probabilities for our
+network.
+
+The steady-state probability for an $$M/M/1$$ queue is $$p(n) = (1 - \rho)
+\rho^n$$. Applying the product rule for Jackson network we get:
+
+```{r, echo = FALSE}
+rho1 <- 500 / 800
+rho2 <- 250 / 500
+rho3 <- 250 / 500
+
+rho.factors <- (1 - rho1) * (1 - rho2) * (1 - rho3)
+```
+
+$$
+\begin{align}
+p(\mathbf{n}) &= (1 - \rho_1) (1 - \rho_2) (1 - \rho_3) \rho_1^{n_1} \rho_2^{n_2} \rho_3^{n_3} \\
+ &= `r 1 - rho1` \cdot `r 1 - rho2` \cdot `r 1 - rho3` \cdot `r rho1`^{n_1} \cdot `r rho2`^{n_2} \cdot `r rho3`^{n_3} \\
+ &= `r rho.factors` \cdot `r rho1`^{n_1} \cdot `r rho2`^{n_2} \cdot `r rho3`^{n_3} \\
+\end{align}
+$$
+
+Let's now calculate the probability that we have two customers at each of the
+queues, that is let's calculate $$p(\langle 2, 2, 2 \rangle)$$:
+
+$$
+\begin{align}
+ p(\langle 2, 2, 2 \rangle) &= `r rho.factors` \cdot `r rho1`^{n_1} \cdot `r rho2`^{n_2} \cdot `r rho3`^{n_3} \\
+ &\approx `r rho.factors * rho1^2 * rho2^2 * rho3^2`
+\end{align}
+$$
+
+
 
 [1]: /maths/performance/2016/03/07/multi-server-queues.html
+[2]: /maths/performance/2016/02/20/service-latency-and-utilisation.html
