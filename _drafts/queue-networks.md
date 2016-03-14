@@ -167,7 +167,27 @@ $$
 \end{align}
 $$
 
+## Latency of Queue Networks
 
+As with all of the queue models we've seen so far, the steady-state
+probabilities are not that interesting on their own. Rather, we are interested
+in the results that follow from these probabilities. To determine the average
+latency for the network $$W_{net}$$ recall Little's Law:
+
+$$
+L = \lambda W
+$$
+
+The mean number of customers $$L$$ is equal to the arrival rate $$\lambda$$
+multiplied by the mean latency $$W$$. We know the arrival rate for our network,
+so we if can calculate the mean number of customers in the network, the latency
+will follow. Since we are able to consider each queue in isolation after
+solving the flow balance equations, it is enough to calculate the mean number
+of customers for each queue and then sum them:
+
+$$
+L_{net} = \sum_{i=1}^{J}L_i = \sum_{i=1}^{J} \frac{\rho_i}{1 - \rho_i}
+$$
 
 [1]: /maths/performance/2016/03/07/multi-server-queues.html
 [2]: /maths/performance/2016/02/20/service-latency-and-utilisation.html
