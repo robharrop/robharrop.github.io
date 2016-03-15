@@ -8,11 +8,11 @@ In my [previous post][1] I presented the $$M/M/c$$ queue as a model for
 multi-server architectures. As discussed at the end of that post, the
 $$M/M/c$$ model has two main drawbacks: each server must have the same
 service rate, and there's no mechanism for modelling the overhead of
-routing between servers. A model that has a single queue for what is in
-reality multiple queues ignores important real-world system
-characteristics. In this post, I'll explain how we can arrange queues into
-networks that capture the cost of routing and allow for servers with
-different service rates.
+routing between servers. Modelling a multi-server system using a single
+queue - even a queue with multiple servers - ignores important real-world
+system characteristics. In this post, I'll explain how we can arrange
+queues into networks that capture the cost of routing and allow for
+servers with different service rates.
 
 ## Open Jackson Networks
 
@@ -27,9 +27,9 @@ The most interesting characteristic of Jackson networks is that they have
 a product form solution for the steady-state distribution. This is
 a rather grand way of saying that we can calculate the steady-state
 distribution of the network by treating each queue as if it were operating
-independently. For a network to behave in this manner, all routing between
-queues in the network must be _Markovian_, that is routing of customers
-between nodes in the network is _probabilistic_.
+independently. For Jackson's theorem to apply, all routing between queues
+in the network must be _Markovian_, that is routing of customers between
+nodes in the network is _probabilistic_.
 
 At first glance, the requirement to route probabilistically might seem
 rather restrictive, but in reality it merely requires a small change
@@ -42,6 +42,7 @@ with probability $$1/n$$.
 To get a better understanding for Jackson networks, let's consider
 a concrete example of two servers operating behind a load balancer:
 
+![Simple queue network](/assets/queue-networks/network.png)
 
 Here you can see that traffic arrives at the load balancer ($$s_{1}$$)
 from the outside with rate  $$\lambda = 500$$ and is then routed between
@@ -70,8 +71,8 @@ from queue $$1$$ to either queue $$2$$ or queue $$3$$ is $$1/2$$.
 
 Jackson's theorem tells us that, provided we have Markovian routing, and
 that each queue has it's own well-defined steady-state, then the whole
-network has a well-defined steady-state distribution. Furthermore, we know
-that the network's steady-state distribution is:
+network has a well-defined steady-state distribution. Furthermore, the
+product form rule tells us the network's steady-state distribution:
 
 $$
 p(\mathbf{n}) = \prod_{i=1}^{J} p_{i}(n_{i})
@@ -121,11 +122,12 @@ $$
 \end{align}
 $$
 
-Recall from [the discussion of $$M/M/1$$][2] queues that the stability
-condition for $$M/M/1$$ is that $$\rho = \lambda / \mu < 1$$. If this condition
-holds for each of our queues, then we know that our network has a steady state
-distribution given by Jackson's theorem. Using the service rates from the
-diagram above we can calculate $$\rho$$ for each of our queues:
+Recall from [the discussion of $$M/M/1$$ queues][2] that the stability
+condition for $$M/M/1$$ is $$\rho = \lambda / \mu < 1$$. If this
+condition holds for each of our queues, then we know that our network has
+a steady-state distribution given by Jackson's theorem. Using the service
+rates from the diagram above we can calculate $$\rho$$ for each of our
+queues:
 
 $$
 \begin{align}
@@ -170,8 +172,8 @@ $$
 ## Latency of Queue Networks
 
 As with the queue models we've seen so far, the steady-state probabilities
-are not that interesting on their own. Rather, it's the results that
-follow from these probabilities that interest us. To determine the average
+are not that interesting on their own. Rather, the results that follow
+from these probabilities are what interest us. To determine the average
 latency for the network $$W_{net}$$ recall Little's Law:
 
 $$
@@ -202,7 +204,7 @@ L_{net} &= \frac{\rho_1}{1 - \rho_1} + \frac{\rho_2}{1 - \rho_2} + \frac{\rho_3}
 $$
 
 With $$L_{net}$$ in hand, we can now calculate the latency $$W_{net}$$ for
-out network:
+our network:
 
 $$
 \begin{align}
@@ -214,7 +216,7 @@ $$
 
 Coarse-grained results such as average wait time and average occupancy
 gives us rough insight into our queue networks. We can gain better insight
-using simulation tools such as [PDQ][2] and [SimJS][3].  SimJS provides
+using simulation tools such as [PDQ][3] and [SimJS][4].  SimJS provides
 a drag-and-drop interface for designing queue networks and can simulate
 many hours of queue activity in a handful of minutes. 
 
