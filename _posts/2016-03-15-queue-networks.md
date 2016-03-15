@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Queue Networks
+date:   2016-03-15 07:00:00 +0000
 categories: maths performance
 ---
 
@@ -149,20 +150,13 @@ network.
 The steady-state probability for an $$M/M/1$$ queue is $$p(n) = (1 - \rho)
 \rho^n$$. Applying the product rule for Jackson network we get:
 
-```{r, echo = FALSE}
-lambda1 <- 500
-rho1 <- lambda1 / 800
-rho2 <- 250 / 500
-rho3 <- 250 / 500
 
-rho.factors <- (1 - rho1) * (1 - rho2) * (1 - rho3)
-```
 
 $$
 \begin{align}
 p(\mathbf{n}) &= (1 - \rho_1) (1 - \rho_2) (1 - \rho_3) \rho_1^{n_1} \rho_2^{n_2} \rho_3^{n_3} \\
- &= `r 1 - rho1` \cdot `r 1 - rho2` \cdot `r 1 - rho3` \cdot `r rho1`^{n_1} \cdot `r rho2`^{n_2} \cdot `r rho3`^{n_3} \\
- &= `r rho.factors` \cdot `r rho1`^{n_1} \cdot `r rho2`^{n_2} \cdot `r rho3`^{n_3} \\
+ &= 0.375 \cdot 0.5 \cdot 0.5 \cdot 0.625^{n_1} \cdot 0.5^{n_2} \cdot 0.5^{n_3} \\
+ &= 0.09375 \cdot 0.625^{n_1} \cdot 0.5^{n_2} \cdot 0.5^{n_3} \\
 \end{align}
 $$
 
@@ -171,8 +165,8 @@ the queues, that is, let's calculate $$p(\langle 2, 2, 2 \rangle)$$:
 
 $$
 \begin{align}
- p(\langle 2, 2, 2 \rangle) &= `r rho.factors` \cdot `r rho1`^{n_1} \cdot `r rho2`^{n_2} \cdot `r rho3`^{n_3} \\
- &\approx `r rho.factors * rho1^2 * rho2^2 * rho3^2`
+ p(\langle 2, 2, 2 \rangle) &= 0.09375 \cdot 0.625^{n_1} \cdot 0.5^{n_2} \cdot 0.5^{n_3} \\
+ &\approx 0.0022888
 \end{align}
 $$
 
@@ -200,15 +194,13 @@ $$
 
 For our network:
 
-```{r echo=FALSE}
-l.net <- round((rho1 / (1-rho1)) + (rho2 / (1-rho2)) + (rho3 / (1 - rho3)), 4)
-```
+
 
 $$
 \begin{align}
 L_{net} &= \frac{\rho_1}{1 - \rho_1} + \frac{\rho_2}{1 - \rho_2} + \frac{\rho_3}{1 - \rho_3} \\
-&= \frac{`r rho1`}{`r 1 - rho1`} + \frac{`r rho2`}{`r 1 - rho2`} + \frac{`r rho3`}{`r 1 - rho3`} \\
-&\approx `r l.net`
+&= \frac{0.625}{0.375} + \frac{0.5}{0.5} + \frac{0.5}{0.5} \\
+&\approx 3.6667
 \end{align}
 $$
 
@@ -218,8 +210,8 @@ our network:
 $$
 \begin{align}
 W_{net} &= \frac{L_{net}}{\lambda} \\
-&\approx \frac{`r l.net`}{`r lambda1`} \\
-&\approx `r l.net / lambda1`
+&\approx \frac{3.6667}{500} \\
+&\approx 0.0073334
 \end{align}
 $$
 
