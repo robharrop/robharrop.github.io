@@ -148,7 +148,8 @@ The steady-state probability for an $$M/M/1$$ queue is $$p(n) = (1 - \rho)
 \rho^n$$. Applying the product rule for Jackson network we get:
 
 ```{r, echo = FALSE}
-rho1 <- 500 / 800
+lambda1 <- 500
+rho1 <- lambda1 / 800
 rho2 <- 250 / 500
 rho3 <- 250 / 500
 
@@ -194,6 +195,37 @@ of customers for each queue and then sum them:
 $$
 L_{net} = \sum_{i=1}^{J}L_i = \sum_{i=1}^{J} \frac{\rho_i}{1 - \rho_i}
 $$
+
+For our network:
+
+```{r echo=FALSE}
+l.net <- round((rho1 / (1-rho1)) + (rho2 / (1-rho2)) + (rho3 / (1 - rho3)), 4)
+```
+
+$$
+\begin{align}
+L_{net} &= \frac{\rho_1}{1 - \rho_1} + \frac{\rho_2}{1 - \rho_2} + \frac{\rho_3}{1 - \rho_3} \\
+&= \frac{`r rho1`}{`r 1 - rho1`} + \frac{`r rho2`}{`r 1 - rho2`} + \frac{`r rho3`}{`r 1 - rho3`} \\
+&\approx `r l.net`
+\end{align}
+$$
+
+With $$L_{net}$$ in hand, we can finally calculate the latency $$W_{net}$$ for
+out network:
+
+$$
+\begin{align}
+W_{net} &= \frac{L_{net}}{\lambda} \\
+&\approx \frac{`r l.net`}{`r lambda1`} \\
+&\approx `r l.net / lambda1`
+\end{align}
+$$
+
+### Impact of Service Rate Changes
+
+It is interesting to think about how changing service rates for our servers
+affect the overall latency of the network.
+
 
 [1]: /maths/performance/2016/03/07/multi-server-queues.html
 [2]: /maths/performance/2016/02/20/service-latency-and-utilisation.html

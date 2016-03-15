@@ -189,5 +189,34 @@ $$
 L_{net} = \sum_{i=1}^{J}L_i = \sum_{i=1}^{J} \frac{\rho_i}{1 - \rho_i}
 $$
 
+For our network:
+
+
+
+$$
+\begin{align}
+L_{net} &= \frac{\rho_1}{1 - \rho_1} + \frac{\rho_2}{1 - \rho_2} + \frac{\rho_3}{1 - \rho_3} \\
+&= \frac{0.625}{0.375} + \frac{0.5}{0.5} + \frac{0.5}{0.5} \\
+&\approx 3.6667
+\end{align}
+$$
+
+With $$L_{net}$$ in hand, we can finally calculate the latency $$W_{net}$$ for
+out network:
+
+$$
+\begin{align}
+W_{net} &= \frac{L_{net}}{\lambda} \\
+&\approx \frac{3.6667}{500} \\
+&\approx 0.0073334
+\end{align}
+$$
+
+### Impact of Service Rate Changes
+
+It is interesting to think about how changing service rates for our servers
+affect the overall latency of the network.
+
+
 [1]: /maths/performance/2016/03/07/multi-server-queues.html
 [2]: /maths/performance/2016/02/20/service-latency-and-utilisation.html
