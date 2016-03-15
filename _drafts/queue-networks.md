@@ -2,7 +2,6 @@
 layout: post
 title: Queue Networks
 categories: maths performance
-
 ---
 
 In my [previous post][1] I presented the $$M/M/c$$ queue as a model for
@@ -10,32 +9,33 @@ multi-server architectures. As discussed at the end of that post, the
 $$M/M/c$$ model has two main drawbacks: each server must have the same
 service rate, and there's no mechanism for modelling the overhead of
 routing between servers. A model that has a single queue for what is in
-reality multiple queues isn't sufficient. In this post, I'll explain how
-queues can be arranged in networks that capture the cost of routing and
-allow for servers with different service rates.
+reality multiple queues ignores important real-world system
+characteristics. In this post, I'll explain how we can arrange queues into
+networks that capture the cost of routing and allow for servers with
+different service rates.
 
 ## Open Jackson Networks
 
 We're going to concern ourselves with a particular class of queue network
-called **open Jackson networks**. The 'open' portion of the name refers to
-the fact that customers arrive from outside the system much like the
-queues we've seen so far. In a closed Jackson network, there are no
-arrivals from the outside and customers never leave the system; in other
-words the amount of work in the system is fixed.
+called **open Jackson networks**. The 'open' in the name refers to the
+fact that customers arrive from outside the system much like the queues
+we've seen so far. In a closed Jackson network, there are no arrivals from
+the outside and customers never leave the system; in other words the
+amount of work in the system is constant.
 
 The most interesting characteristic of Jackson networks is that they have
 a product form solution for the steady-state distribution. This is
-a rather grand way of saying that we can calculate the overall
-steady-state distribution by treating each component as if it were
-operating independently. For a network to behave in this manner, all
-routing between queues in the network must be _Markovian_, that is
-customers are routed from one queue to the network _probabilistically_.
+a rather grand way of saying that we can calculate the steady-state
+distribution of the network by treating each queue as if it were operating
+independently. For a network to behave in this manner, all routing between
+queues in the network must be _Markovian_, that is routing of customers
+between nodes in the network is _probabilistic_.
 
 At first glance, the requirement to route probabilistically might seem
-rather restrictive, but in reality it requires only a small change in
-mindset. If our real world system routes traffic between $$n$$ servers in
-a round-robin fashion, then our model can route between $$n$$ queues with
-probability $$1/n$$.
+rather restrictive, but in reality it merely requires a small change
+in mindset. If our real world system routes traffic between $$n$$ servers
+in a round-robin fashion, then our model can route between $$n$$ queues
+with probability $$1/n$$.
 
 ## Modelling Load Balanced Servers
 
@@ -71,7 +71,7 @@ from queue $$1$$ to either queue $$2$$ or queue $$3$$ is $$1/2$$.
 Jackson's theorem tells us that, provided we have Markovian routing, and
 that each queue has it's own well-defined steady-state, then the whole
 network has a well-defined steady-state distribution. Furthermore, we know
-that the network's steady-state distribution is simply:
+that the network's steady-state distribution is:
 
 $$
 p(\mathbf{n}) = \prod_{i=1}^{J} p_{i}(n_{i})
@@ -85,18 +85,18 @@ state? For that we need to calculate the flow balance equations.
 ### Flow Balance
 
 The flow balance equations for a network with $$J$$ queues is a set of
-$$J$$ equations that can be solved to find the effective arrival rate
+$$J$$ equations that we can solve to find the effective arrival rate
 $$\lambda_{i}$$ at each queue $$i$$.
 
-Looking back at our matrix of routing probabilities, it should be apparent
+Looking back at our matrix of routing probabilities, it should be clear
 that any queue can receive customers from the outside world, but also that
 customers can flow in cycles through the network. Nothing in the Jackson
-model requires that the network is acyclic. Thus the effective arrival rate for
-each queue must account for arrivals from outside and for arrivals from all
-other queues within the network.
+model requires that the network is acyclic. Thus the effective arrival
+rate for each queue must account for arrivals from outside and for
+arrivals from all other queues within the network.
 
 More formally, the flow balance equations for a Jackson network with $$J$$
-nodes is given by:
+nodes are:
 
 $$
 \lambda_j = \lambda_{0j} + \sum_{i=1}^{J} \lambda_i \cdot p_{ij}
@@ -157,8 +157,8 @@ p(\mathbf{n}) &= (1 - \rho_1) (1 - \rho_2) (1 - \rho_3) \rho_1^{n_1} \rho_2^{n_2
 \end{align}
 $$
 
-Let's now calculate the probability that we have two customers at each of the
-queues, that is let's calculate $$p(\langle 2, 2, 2 \rangle)$$:
+Let's now calculate the probability that we have two customers at each of
+the queues, that is, let's calculate $$p(\langle 2, 2, 2 \rangle)$$:
 
 $$
 \begin{align}
@@ -169,9 +169,9 @@ $$
 
 ## Latency of Queue Networks
 
-As with all of the queue models we've seen so far, the steady-state
-probabilities are not that interesting on their own. Rather, we are interested
-in the results that follow from these probabilities. To determine the average
+As with the queue models we've seen so far, the steady-state probabilities
+are not that interesting on their own. Rather, it's the results that
+follow from these probabilities that interest us. To determine the average
 latency for the network $$W_{net}$$ recall Little's Law:
 
 $$
@@ -182,7 +182,7 @@ The mean number of customers $$L$$ is equal to the arrival rate $$\lambda$$
 multiplied by the mean latency $$W$$. We know the arrival rate for our network,
 so we if can calculate the mean number of customers in the network, the latency
 will follow. Since we are able to consider each queue in isolation after
-solving the flow balance equations, it is enough to calculate the mean number
+solving the flow balance equations, it's enough to calculate the mean number
 of customers for each queue and then sum them:
 
 $$
@@ -201,7 +201,7 @@ L_{net} &= \frac{\rho_1}{1 - \rho_1} + \frac{\rho_2}{1 - \rho_2} + \frac{\rho_3}
 \end{align}
 $$
 
-With $$L_{net}$$ in hand, we can finally calculate the latency $$W_{net}$$ for
+With $$L_{net}$$ in hand, we can now calculate the latency $$W_{net}$$ for
 out network:
 
 $$
@@ -212,11 +212,29 @@ W_{net} &= \frac{L_{net}}{\lambda} \\
 \end{align}
 $$
 
-### Impact of Service Rate Changes
+Coarse-grained results such as average wait time and average occupancy
+gives us rough insight into our queue networks. We can gain better insight
+using simulation tools such as [PDQ][2] and [SimJS][3].  SimJS provides
+a drag-and-drop interface for designing queue networks and can simulate
+many hours of queue activity in a handful of minutes. 
 
-It is interesting to think about how changing service rates for our servers
-affect the overall latency of the network.
+I plan to write about network simulation more in a later entry, but for
+now I recommend you try out SimJS.
 
+### Conclusion
+
+Queue networks are a useful tool for modelling complex distributed
+applications. We gain the simplicity of Jackson networks provided we
+ensure Markovian routing throughout our model. If our network is free from
+cycles, calculating flow balance is simply a case of tracing traffic from
+the entrypoints of the network all the way through to the exit points.
+
+When modelling your own systems using queue theory, prefer network models
+over $$M/M/c$$ models. Networks afford the flexibility to model varying
+service rates across the servers in the network, and provided a means to
+model the overhead of traffic routing.
 
 [1]: /maths/performance/2016/03/07/multi-server-queues.html
 [2]: /maths/performance/2016/02/20/service-latency-and-utilisation.html
+[3]: http://www.perfdynamics.com/Tools/PDQ.html
+[4]: http://simjs.com/queuing/index.html
