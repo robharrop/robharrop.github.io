@@ -27,6 +27,10 @@ serve: $(R_SERVE)
 clean:
 	$(JEKYLL) clean
 
+.PHONY: open
+open:
+	open http://localhost:4321
+
 $(WRITE_GOOD_JS):
 	npm install write-good
 
