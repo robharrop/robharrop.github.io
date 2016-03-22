@@ -71,7 +71,7 @@ queue $$1$$ from outside the system is $$1$$ and the probability that jobs move
 from queue $$1$$ to either queue $$2$$ or queue $$3$$ is $$1/2$$.
 
 Jackson's theorem tells us that, provided we have Markovian routing, and
-that each queue has it's own well-defined steady-state, then the whole
+that each queue has its own well-defined steady state, then the whole
 network has a well-defined steady-state distribution. Furthermore, the
 product form rule tells us the network's steady-state distribution:
 
@@ -234,7 +234,7 @@ the entrypoints of the network all the way through to the exit points.
 
 When modelling your own systems using queue theory, prefer network models
 over $$M/M/c$$ models. Networks afford the flexibility to model varying
-service rates across the servers in the network, and provided a means to
+service rates across the servers in the network, and provide a means to
 model the overhead of traffic routing.
 
 [1]: /maths/performance/2016/03/07/multi-server-queues.html
