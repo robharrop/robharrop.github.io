@@ -54,6 +54,8 @@ ensures that probability distribution for the next state depends only on
 the current state. Put another way, the history of a Markov process is
 unimportant when considering what the next transition will be.
 
+![Simple Markov chain example](/assets/markov-chains/dtmc.png)
+
 The diagram above shows a simple Markov chain with three states: *in bed*, *at
 the gym* and *at work*. The transitions between each state to the next state are
 labelled with the respective probabilities. For example, the probability of
@@ -84,6 +86,8 @@ resulting in *continuous-time Markov chains*.
 We can recast our discrete-time process as a continuous-time process. We use a
 slightly different representation for our continous-time chains. Rather than
 modelling the transition probabilities, we model the *transition rates*:
+
+![Continuous-time Markov chain example](/assets/markov-chains/ctmc.png)
 
 Note that we're omitting rates for staying in the same state. Just as we used a
 transition probability matrix for the discrete-time chain, we use a transition
@@ -120,6 +124,7 @@ been no arrivals. With rate $$\lambda$$, the first arrival occurs, then the
 second, the third and so on for as long as the process continues. We can model
 this as a Markov chain where the states correspond to the arrivals count:
 
+![Markov chain of birth-death process](/assets/markov-chains/birth-death.png)
 
 When we translate this into a transition rate matrix we get:
 
