@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Understanding Birth-Death Processes"
+title:  "Inside Queue Models: Markov Chains"
 date:   2016-03-22 17:00:00 +0000
 categories: maths performance
 ---
