@@ -138,7 +138,7 @@ We can model a Poisson process, and thus the arrivals and service processes, as
 a CTMC where each state in the chain corresponds to a given population size.
 Consider the arrivals process in an $$M/M/1$$ queue. We know that arrivals are a
 Poisson process with rate $$\lambda$$. At the start of the process, there have
-been no arrivals. Thi first arrival occurs with rate $$\lambda$$, so to second,
+been no arrivals. The first arrival occurs with rate $$\lambda$$, so to second,
 the third and so on for as long as the process continues. We can model this as a
 Markov chain where the states correspond to the arrivals count:
 
